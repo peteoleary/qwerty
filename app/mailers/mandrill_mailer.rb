@@ -21,7 +21,7 @@ class MandrillMailer < Devise::Mailer
                 content: "#{get_app_host}/user/confirmation?user_confirmation_token=#{token}"
             }
         ],
-        :template => "email-verification"
+        :template => "registration-confirmation"
     }
     mandrill_send options
   end

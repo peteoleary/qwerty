@@ -44,6 +44,11 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # Enable stdout logger
+  config.logger = Logger.new(STDOUT)
+  # Set log level
+  config.log_level = :DEBUG
+
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

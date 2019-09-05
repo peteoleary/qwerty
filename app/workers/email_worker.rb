@@ -1,4 +1,5 @@
 require 'mandrill'
+require 'dotenv/load'
 
 class EmailWorker
   include Sidekiq::Worker
@@ -27,11 +28,12 @@ class EmailWorker
     sending = @mandrill.messages.send_template opts[:template], [], message
 
     if sending[0]['status'] != 'sent'
-      Rails.logger.warn("#{sending}")
+      raise Mandrill::Error.new sending
     end
 
   rescue Mandrill::Error => e
-    Rails.logger.debug("#{e.class}: #{e.message}")
+    logger.error("#{e.class}: #{e.message}")
+    raise
   end
 
   def perform(opts)
