@@ -8,8 +8,11 @@ import {
 import LoaderButton from "../components/LoaderButton";
 import "./Signup.css";
 
-import {observer} from "controllerim";
-import {SignupController} from "../controllers/SignupController";
+import {observer} from "controllerim"
+import {SignupController} from "../controllers/SignupController"
+
+import Alert from 'react-s-alert'
+import 'react-s-alert/dist/s-alert-default.css'
 
 export const Signup = observer(class extends Component {
 
@@ -18,9 +21,11 @@ export const Signup = observer(class extends Component {
 
         this.state = {
             isLoading: false,
+            first_name: "",
+            last_name: "",
             email: "",
             password: "",
-            confirmPassword: "",
+            password_confirmation: "",
             confirmationCode: "",
             newUser: null
         };
@@ -34,7 +39,7 @@ export const Signup = observer(class extends Component {
         return (
             this.state.email.length > 0 &&
             this.state.password.length > 0 &&
-            this.state.password === this.state.confirmPassword
+            this.state.password === this.state.password_confirmation
         );
     }
 
@@ -53,9 +58,16 @@ export const Signup = observer(class extends Component {
 
         this.setState({ isLoading: true });
 
-        this.setState({ newUser: "test" });
+        this.controller.do_signup(this.state).then((user) => {
 
-        this.setState({ isLoading: false });
+            this.setState({ newUser: user });
+
+            this.setState({ isLoading: false });
+        }).catch((message) => {
+
+            Alert.error(message.message)
+            this.setState({ isLoading: false });
+        })
     }
 
     handleConfirmationSubmit = async event => {
@@ -92,6 +104,24 @@ export const Signup = observer(class extends Component {
     renderForm() {
         return (
             <form onSubmit={this.handleSubmit}>
+                <FormGroup controlId="first_name">
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl
+                        autoFocus
+                        type="string"
+                        value={this.state.first_name}
+                        onChange={this.handleChange}
+                    />
+                </FormGroup>
+                <FormGroup controlId="last_name">
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl
+                        autoFocus
+                        type="string"
+                        value={this.state.last_name}
+                        onChange={this.handleChange}
+                    />
+                </FormGroup>
                 <FormGroup controlId="email">
                     <FormLabel>Email</FormLabel>
                     <FormControl
@@ -109,10 +139,10 @@ export const Signup = observer(class extends Component {
                         type="password"
                     />
                 </FormGroup>
-                <FormGroup controlId="confirmPassword">
+                <FormGroup controlId="password_confirmation">
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl
-                        value={this.state.confirmPassword}
+                        value={this.state.password_confirmation}
                         onChange={this.handleChange}
                         type="password"
                     />

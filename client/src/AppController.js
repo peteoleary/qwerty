@@ -1,6 +1,9 @@
-import { Controller } from 'controllerim';
+import { Controller } from 'controllerim'
 
 export class AppController extends Controller {
+
+    static controllerName = 'AppController'
+
     constructor(comp) {
         super(comp);
         this.state = {

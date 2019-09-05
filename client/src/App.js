@@ -12,6 +12,9 @@ import { observer } from 'controllerim'
 
 import { AppController } from './AppController';
 
+import Alert from 'react-s-alert'
+import 'react-s-alert/dist/s-alert-default.css'
+
 export const App = observer(class extends React.Component {
     componentWillMount() {
         this.controller = new AppController(this);
@@ -22,6 +25,8 @@ export const App = observer(class extends React.Component {
           <Router>
             <div>
               <Header />
+
+              <Alert stack={{limit: 3}} />
 
               <Route exact path="/" component={Home} />
                 <Route path="/login" exact component={Login} />

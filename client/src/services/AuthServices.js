@@ -1,8 +1,9 @@
 const axios = require('axios');
 
-export class AuthServices {
+export default class AuthServices {
 
     constructor(app_controller) {
+        // TODO: maybe check that this is indeed AppController?
         this.app_controller = app_controller
     }
 
@@ -26,8 +27,6 @@ export class AuthServices {
 
     change_password = (token, password, password_confirmation, redirect_url_base) => {
 
-        var headers = {'Content-Type': 'application/json'}
-
         return axios.get(`/api/auth/password/edit?reset_password_token=${token}&redirect_url=${redirect_url_base}/api/auth/validate_token`, {headers: this.anonymous_header()}).then((resp) => {
             console.info(resp)
 
@@ -41,7 +40,6 @@ export class AuthServices {
     sign_in = (email, password) =>  {
 
         // sign in API call here
-        var headers = {'Content-Type': 'application/json'}
         if(email && password){
 
             return axios.post("/api/auth/sign_in" ,{email:email, password:password}, {headers: this.anonymous_header()})
@@ -60,15 +58,15 @@ export class AuthServices {
 
     register_user = (user_info) => {
 
-        const {first_name, last_name, email, password, password_confirm, skip_password_validation} = user_info
+        const {first_name, last_name, email, password, password_confirmation, skip_password_validation} = user_info
 
         // NOTE: you can pass in both skip_password_validation and password+password_confirm but the server will basically ignore the password
 
         // register API call here
-        if(first_name && last_name && email && ((password && password_confirm) || skip_password_validation)){
+        if(first_name && last_name && email && ((password && password_confirmation) || skip_password_validation)){
 
             return axios.post("/api/users",
-                {first_name:first_name, last_name:last_name, email:email, password:password, password_confirmation: password_confirm, skip_password_validation: skip_password_validation},
+                {first_name:first_name, last_name:last_name, email:email, password:password, password_confirmation: password_confirmation, skip_password_validation: skip_password_validation},
                 {headers: this.anonymous_header()})
                 .then(function(resp){
 
