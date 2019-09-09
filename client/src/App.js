@@ -7,6 +7,7 @@ import {Login} from "./containers/Login"
 import {Signup} from "./containers/Signup"
 import {Header} from "./containers/Header"
 import {PasswordReset} from "./containers/PasswordReset"
+import {Home} from "./containers/Home"
 
 import { observer } from 'controllerim'
 
@@ -43,10 +44,6 @@ export const App = observer(class extends React.Component {
       );
     }
 })
-
-function Home() {
-  return <h2>Home</h2>;
-}
 
 function About() {
   return <h2>About</h2>;

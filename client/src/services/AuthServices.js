@@ -6,7 +6,12 @@ export class AuthenticatedController extends Controller {
 
     constructor(comp) {
         super(comp);
-        this.auth_services = new AuthServices(this.getParentController('AppController'))
+        this.app_controller = this.getParentController('AppController')
+        this.auth_services = new AuthServices(this.app_controller)
+    }
+
+    isLoggedIn () {
+        return this.app_controller.getToken() && this.app_controller.getClient()
     }
 }
 
@@ -24,8 +29,8 @@ export class AuthServices {
     authenticated_header = () => {
         return {
             'Content-Type': 'application/json',
-            'access-token': this.app_controller.get_token(),
-            'client': this.app_controller.get_client()
+            'access-token': this.app_controller.getToken(),
+            'client': this.app_controller.getClient()
         }
     }
 
