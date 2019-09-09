@@ -1,20 +1,23 @@
 import { Controller } from 'controllerim';
 
-import AuthServices from '../services/AuthServices.js'
+import {AuthenticatedController, AuthServices} from '../services/AuthServices.js'
 
-export class SignupController extends Controller {
+export class SignupController extends AuthenticatedController {
 
     static controllerName = 'SignupController'
 
     constructor(comp) {
         super(comp);
-        this.state = {
 
+        this.state = {
         };
-        this.auth_services = new AuthServices(this.parent)
     }
 
-    do_signup (user_info) {
-        return this.auth_services.register_user(user_info)
+    doSignup (user_info) {
+        return this.auth_services.registerUser(user_info)
+    }
+
+    doConfirmation (confirmation_code) {
+        return this.auth_services.confirmUser(confirmation_code)
     }
 }

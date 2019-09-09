@@ -16,6 +16,11 @@ import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 
 export const App = observer(class extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
     componentWillMount() {
         this.controller = new AppController(this);
     }

@@ -3,7 +3,7 @@ class MandrillMailer < Devise::Mailer
   include Devise::Controllers::UrlHelpers
 
   def get_app_host
-    ENV['CLIENT_APP_HOST'] || "http://localhost:3001"
+    ENV['CLIENT_APP_HOST'] || "http://localhost:3000"
   end
 
   def get_app_name
@@ -18,7 +18,7 @@ class MandrillMailer < Devise::Mailer
         :global_merge_vars => [
             {
                 name: "user_registration_link",
-                content: "#{get_app_host}/user/confirmation?user_confirmation_token=#{token}"
+                content: "#{get_app_host}/signup?confirmation_code=#{token}"
             }
         ],
         :template => "registration-confirmation"

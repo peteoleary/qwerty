@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
-        include DeviseTokenAuth::Concerns::SetUserByToken
-  protect_from_forgery with: :exception
+  protect_from_forgery unless: -> { request.format.json? }
+  def access_denied(exception)
+    Rails.logger.error "access denied! '#{exception.message}'"
+  end
 end

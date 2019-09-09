@@ -1,22 +1,37 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Login.css";
+import { Redirect } from 'react-router-dom'
 import {observer} from "controllerim";
-import {LoginController} from "../controllers/LoginController";
+import {LoginController} from "../controllers/LoginController"
+
+import Alert from 'react-s-alert'
+import 'react-s-alert/dist/s-alert-default.css'
+
+import qs from "stringquery";
 
 export const Login = observer(class extends Component {
 
     constructor(props) {
         super(props);
 
+        const obj = qs(props.location.search)
+
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            did_confirm: obj['did_confirm'],
+            redirect: null
         };
+
     }
 
     componentWillMount() {
         this.controller = new LoginController(this);
+
+        if (this.state.did_confirm) {
+            Alert.message('Your email address was confirmed')
+        }
     }
 
     validateForm() {
@@ -31,38 +46,48 @@ export const Login = observer(class extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        this.controller.doLogin(this.state.email, this.state.password)
+        this.controller.doLogin(this.state.email, this.state.password).then(() => {
+
+        }
+        ).catch((error) => {
+            Alert.error(error.message)
+        })
     }
 
+    renderRedirect(){
+        return this.state.redirect ? <Redirect to={this.state.redirect} /> : null
+      }
+
     render() {
-        return (
+        return ( this.renderRedirect() ||
             <div className="Login">
-                <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="email">
-                        <FormLabel>Email</FormLabel>
-                        <FormControl
-                            autoFocus
-                            type="email"
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="password">
-                        <FormLabel>Password</FormLabel>
-                        <FormControl
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            type="password"
-                        />
-                    </FormGroup>
-                    <Button
-                        block
-                        disabled={!this.validateForm()}
-                        type="submit"
-                    >
-                        Login
-                    </Button>
-                </form>
+                
+                    <form onSubmit={this.handleSubmit}>
+                        <FormGroup controlId="email">
+                            <FormLabel>Email</FormLabel>
+                            <FormControl
+                                autoFocus
+                                type="email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="password">
+                            <FormLabel>Password</FormLabel>
+                            <FormControl
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                                type="password"
+                            />
+                        </FormGroup>
+                        <Button
+                            block
+                            disabled={!this.validateForm()}
+                            type="submit"
+                        >
+                            Login
+                        </Button>
+                    </form>
             </div>
         );
     }

@@ -10,21 +10,30 @@ export class AppController extends Controller {
             token: null,
             client: null
         };
+
+        // TODO: get ENV from server/Webpack
+        this.env = {
+            'REACT_APP_URL': 'http://localhost:3000'
+        }
     }
 
-    get_token() {
+    getToken() {
         return this.state.token;
     }
 
-    set_token(value) {
+    setToken(value) {
         this.state.token  = value;
     }
 
-    get_client() {
+    getClient() {
         return this.state.client;
     }
 
-    set_client(value) {
+    setClient(value) {
         this.state.token  = value;
+    }
+
+    getEnv(key) {
+        return this.env[key]
     }
 }

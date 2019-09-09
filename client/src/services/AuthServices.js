@@ -1,6 +1,16 @@
+import { Controller } from 'controllerim'
+
 const axios = require('axios');
 
-export default class AuthServices {
+export class AuthenticatedController extends Controller {
+
+    constructor(comp) {
+        super(comp);
+        this.auth_services = new AuthServices(this.getParentController('AppController'))
+    }
+}
+
+export class AuthServices {
 
     constructor(app_controller) {
         // TODO: maybe check that this is indeed AppController?
@@ -19,25 +29,29 @@ export default class AuthServices {
         }
     }
 
-    reset_password = (email, redirect_url)  => {
+    confirmUser = (confirmation_token) => {
+        return axios.get(`/api/auth/confirmation?confirmation_token=${confirmation_token}` , {headers: this.anonymous_header()})
+    }
+
+    resetPassword = (email, redirect_url)  => {
 
         // sign in API call here
         return axios.post("/api/auth/password" ,{email:email, redirect_url:redirect_url}, {headers: this.anonymous_header()})
     }
 
-    change_password = (token, password, password_confirmation, redirect_url_base) => {
+    changePassword = (token, password, password_confirmation, redirect_url_base) => {
 
         return axios.get(`/api/auth/password/edit?reset_password_token=${token}&redirect_url=${redirect_url_base}/api/auth/validate_token`, {headers: this.anonymous_header()}).then((resp) => {
             console.info(resp)
 
-            this.app_controller.set_token(resp.headers['access-token'])
-            this.app_controller.set_client(resp.headers.client)
+            this.app_controller.setToken(resp.headers['access-token'])
+            this.app_controller.setClient(resp.headers.client)
 
             return axios.put('/api/auth/password', {password: password, password_confirmation: password_confirmation}, {headers: this.authenticated_header()})
         })
     }
 
-    sign_in = (email, password) =>  {
+    signIn = (email, password) =>  {
 
         // sign in API call here
         if(email && password){
@@ -56,7 +70,7 @@ export default class AuthServices {
         }
     }
 
-    register_user = (user_info) => {
+    registerUser = (user_info) => {
 
         const {first_name, last_name, email, password, password_confirmation, skip_password_validation} = user_info
 

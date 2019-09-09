@@ -1,8 +1,11 @@
 import { Controller } from 'controllerim';
 
-import AuthServices from '../services/AuthServices.js'
+import {AuthenticatedController, AuthServices} from '../services/AuthServices.js'
 
-export class LoginController extends Controller {
+export class LoginController extends AuthenticatedController {
+
+    static controllerName = 'LoginController'
+
     constructor(comp) {
         super(comp);
         this.state = {
@@ -11,6 +14,6 @@ export class LoginController extends Controller {
     }
 
     doLogin (email, password) {
-        // sign_in(email, password)
+        return this.auth_services.signIn(email, password)
     }
 }

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
+import { Redirect } from 'react-router-dom'
 import {
     FormText,
     FormGroup,
@@ -11,6 +12,8 @@ import "./Signup.css";
 import {observer} from "controllerim"
 import {SignupController} from "../controllers/SignupController"
 
+import qs from "stringquery";
+
 import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 
@@ -19,20 +22,27 @@ export const Signup = observer(class extends Component {
     constructor(props) {
         super(props);
 
+        const obj = qs(props.location.search)
+
         this.state = {
-            isLoading: false,
+            is_loading: false,
             first_name: "",
             last_name: "",
             email: "",
             password: "",
             password_confirmation: "",
-            confirmationCode: "",
-            newUser: null
+            confirmation_code: obj['confirmation_code'] || "",
+            redirect: obj['redirect_url'],
+            new_user: null
         };
     }
 
     componentWillMount() {
         this.controller = new SignupController(this);
+
+        if (this.state.confirmation_code) {
+            this.handleConfirmationAction(this.state.confirmation_code)
+        }
     }
 
     validateForm() {
@@ -44,7 +54,7 @@ export const Signup = observer(class extends Component {
     }
 
     validateConfirmationForm() {
-        return this.state.confirmationCode.length > 0;
+        return this.state.confirmation_code.length > 0;
     }
 
     handleChange = event => {
@@ -56,35 +66,53 @@ export const Signup = observer(class extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        this.setState({ isLoading: true });
+        this.setState({ is_loading: true });
 
-        this.controller.do_signup(this.state).then((user) => {
+        this.controller.doSignup(this.state).then((user) => {
 
-            this.setState({ newUser: user });
+            this.setState({ new_user: user });
 
-            this.setState({ isLoading: false });
-        }).catch((message) => {
+            this.setState({ is_loading: false });
+        }).catch((error) => {
 
-            Alert.error(message.message)
-            this.setState({ isLoading: false });
+            Alert.error(error.message)
+            this.setState({ is_loading: false });
         })
     }
 
     handleConfirmationSubmit = async event => {
         event.preventDefault();
-
-        this.setState({ isLoading: true });
+        this.handleConfirmationAction(this.state.confirmation_code)
     }
+
+    handleConfirmationAction(confirmation_code) {
+        this.setState({ is_loading: true });
+        this.controller.doConfirmation(confirmation_code).then(() => {
+            this.setState({ is_loading: false });
+
+            this.setState({redirect: '/login?did_confirm=true'})
+
+        }).catch ((message) => {
+            Alert.error(message.message)
+            this.setState({ is_loading: false });
+        })
+    }
+
+    renderRedirect(){
+        if (this.state.redirect) {
+          return <Redirect to={this.state.redirect} />
+        }
+      }
 
     renderConfirmationForm() {
         return (
             <form onSubmit={this.handleConfirmationSubmit}>
-                <FormGroup controlId="confirmationCode">
+                <FormGroup controlId="confirmation_code">
                     <FormLabel>Confirmation Code</FormLabel>
                     <FormControl
                         autoFocus
                         type="tel"
-                        value={this.state.confirmationCode}
+                        value={this.state.confirmation_code}
                         onChange={this.handleChange}
                     />
                     <FormText>Please check your email for the code.</FormText>
@@ -93,7 +121,7 @@ export const Signup = observer(class extends Component {
                     block
                     disabled={!this.validateConfirmationForm()}
                     type="submit"
-                    isLoading={this.state.isLoading}
+                    isLoading={this.state.is_loading}
                     text="Verify"
                     loadingText="Verifying…"
                 />
@@ -151,7 +179,7 @@ export const Signup = observer(class extends Component {
                     block
                     disabled={!this.validateForm()}
                     type="submit"
-                    isLoading={this.state.isLoading}
+                    isLoading={this.state.is_loading}
                     text="Signup"
                     loadingText="Signing up…"
                 />
@@ -162,9 +190,10 @@ export const Signup = observer(class extends Component {
     render() {
         return (
             <div className="Signup">
-                {this.state.newUser === null
-                    ? this.renderForm()
-                    : this.renderConfirmationForm()}
+                {this.state.redirect ? this.renderRedirect() : 
+                    this.state.new_user === null
+                        ? this.renderForm()
+                        : this.renderConfirmationForm()}
             </div>
         );
     }
