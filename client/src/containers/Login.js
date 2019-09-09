@@ -30,7 +30,7 @@ export const Login = observer(class extends Component {
         this.controller = new LoginController(this);
 
         if (this.state.did_confirm) {
-            Alert.message('Your email address was confirmed')
+            Alert.info('Your email address was confirmed')
         }
     }
 
@@ -47,7 +47,7 @@ export const Login = observer(class extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.controller.doLogin(this.state.email, this.state.password).then(() => {
-
+            this.setState({redirect: '/home'})
         }
         ).catch((error) => {
             Alert.error(error.message)

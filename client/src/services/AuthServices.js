@@ -41,11 +41,13 @@ export class AuthServices {
 
     changePassword = (token, password, password_confirmation, redirect_url_base) => {
 
+        const   that = this
+
         return axios.get(`/api/auth/password/edit?reset_password_token=${token}&redirect_url=${redirect_url_base}/api/auth/validate_token`, {headers: this.anonymous_header()}).then((resp) => {
             console.info(resp)
 
-            this.app_controller.setToken(resp.headers['access-token'])
-            this.app_controller.setClient(resp.headers.client)
+            that.app_controller.setToken(resp.headers['access-token'])
+            that.app_controller.setClient(resp.headers.client)
 
             return axios.put('/api/auth/password', {password: password, password_confirmation: password_confirmation}, {headers: this.authenticated_header()})
         })
@@ -56,11 +58,13 @@ export class AuthServices {
         // sign in API call here
         if(email && password){
 
+            const   that = this
+
             return axios.post("/api/auth/sign_in" ,{email:email, password:password}, {headers: this.anonymous_header()})
                 .then(function(resp){
 
-                    this.app_controller.set_token(resp.headers['access-token'])
-                    this.app_controller.set_client(resp.headers.client)
+                    that.app_controller.setToken(resp.headers['access-token'])
+                    that.app_controller.setClient(resp.headers.client)
 
                     return Promise.resolve(resp.headers.client, resp.headers['access-token'])
                 })
