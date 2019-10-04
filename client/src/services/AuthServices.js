@@ -11,7 +11,11 @@ export class AuthenticatedController extends Controller {
     }
 
     isLoggedIn () {
-        return this.app_controller.getToken() && this.app_controller.getClient()
+        return this.app_controller.getToken().then((token) => {
+            return this.app_controller.getClient().then((client) => {
+                return client != null && token != null
+            })
+        })
     }
 }
 

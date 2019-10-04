@@ -1,4 +1,4 @@
-require 'mandrill'
+# require 'mandrill'
 require 'dotenv/load'
 
 class EmailWorker
@@ -6,7 +6,8 @@ class EmailWorker
   sidekiq_options queue: 'qwerty_email'
 
   def initialize
-    @mandrill = Mandrill::API.new ENV['MANDRILL_API_KEY']
+    # TODO: handle both Madrill and SendInBlue
+    # @mandrill = Mandrill::API.new ENV['MANDRILL_API_KEY']
   end
 
 
@@ -36,7 +37,12 @@ class EmailWorker
     raise
   end
 
+  def send_in_blue_send(opts={})
+
+  end
+
   def perform(opts)
-    mandrill_send opts
+    # mandrill_send opts
+    send_in_blue_send opts
   end
 end

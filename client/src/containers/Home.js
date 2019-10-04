@@ -26,9 +26,12 @@ export const Home = observer(class extends Component {
     componentWillMount() {
         this.controller = new HomeController(this);
 
-        if (!this.controller.isLoggedIn()) {
-            this.setState({redirect: '/login'})
-        }
+        this.controller.isLoggedIn().then((logged_in) => {
+            if (!logged_in) {
+                this.setState({redirect: '/login'})
+            }
+        })
+        
     }
 
     renderRedirect(){

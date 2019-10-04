@@ -1,7 +1,8 @@
 
-class MandrillMailer < Devise::Mailer
+class SendInBlueMailer < Devise::Mailer
   include Devise::Controllers::UrlHelpers
   include MailerTools
+
 
   def confirmation_instructions(record, token, opts={})
     # code to be added here later

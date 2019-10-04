@@ -18,7 +18,7 @@ export class AppController extends Controller {
     }
 
     getToken() {
-        return this.state.token;
+        return Promise.resolve(this.state.token);
     }
 
     setToken(value) {
@@ -26,7 +26,7 @@ export class AppController extends Controller {
     }
 
     getClient() {
-        return this.state.client;
+        return Promise.resolve(this.state.client);
     }
 
     setClient(value) {
