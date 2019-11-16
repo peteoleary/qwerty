@@ -7,7 +7,7 @@ class MandrillMailer < Devise::Mailer
     # code to be added here later
     options = {
         :subject => "#{get_app_name} Sign Up confirmation",
-        :email => record.email,
+        :to_email => record.email,
         :global_merge_vars => [
             {
                 name: "user_registration_link",
@@ -22,7 +22,7 @@ class MandrillMailer < Devise::Mailer
   def reset_password_instructions(record, token, opts={})
     options = {
         :subject => "#{get_app_name} Password Reset",
-        :email => record.email,
+        :to_email => record.email,
         :global_merge_vars => [
             {
                 name: "password_reset_link",
@@ -44,7 +44,9 @@ class MandrillMailer < Devise::Mailer
         {name: 'LIST_ADDRESS_HTML', content: ENV['FROM_ADDRESS']}
     ]
 
-    EmailWorker.perform_async(options)
+    options['mailer'] = :mandrill
+
+    perform options
   end
 
 end

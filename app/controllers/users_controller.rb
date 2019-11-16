@@ -20,4 +20,3 @@ class UsersController < ApiController
     params.permit(:first_name, :last_name, :email, :password, :password_confirmation, :skip_password_validation, :password_reset_token, :redirect_url)
   end
 end
-``
