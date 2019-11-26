@@ -36,7 +36,6 @@ gem 'rack-cors'
 # gem 'mandrill-api'
 gem 'sib-api-v3-sdk'
 
-
 gem 'active_model_serializers'
 gem 'devise_token_auth'
 

@@ -6,9 +6,11 @@ export class AppController extends Controller {
 
     constructor(comp) {
         super(comp);
+
+        // get state from localStorage
         this.state = {
-            token: null,
-            client: null
+            token: localStorage.getItem('token'),
+            client: localStorage.getItem('client')
         };
 
         // TODO: get ENV from server/Webpack
@@ -17,12 +19,14 @@ export class AppController extends Controller {
         }
     }
 
+
     getToken() {
         return Promise.resolve(this.state.token);
     }
 
     setToken(value) {
         this.state.token  = value;
+        localStorage.setItem('token', this.state.token);
     }
 
     getClient() {
@@ -30,7 +34,8 @@ export class AppController extends Controller {
     }
 
     setClient(value) {
-        this.state.token  = value;
+        this.state.client  = value;
+        localStorage.setItem('client', this.state.client);
     }
 
     getEnv(key) {

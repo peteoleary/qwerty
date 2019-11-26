@@ -21,7 +21,7 @@ Devise.setup do |config|
   config.mailer_sender = ENV['MAILER_SENDER']
 
   # Configure the class responsible to send e-mails.
-  config.mailer = 'MandrillMailer'
+  config.mailer = 'SendInBlueMailer'
 
   # Configure the parent class responsible to send e-mails.
   config.parent_mailer = 'ActionMailer::Base'

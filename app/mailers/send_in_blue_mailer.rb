@@ -29,15 +29,10 @@ class SendInBlueMailer < Devise::Mailer
 
     options[:from_email] = ENV['FROM_EMAIL']
     options[:from_name] = ENV['FROM_NAME']
-    options[:global_merge_vars] += [
-        {name: 'COMPANY', content:  ENV['FROM_COMPANY']},
-        {name: 'DESCRIPTION', content: ENV['FROM_DESCRIPTION'] || "You are receiving this email because you have signed up for #{get_app_name}."},
-        {name: 'LIST_ADDRESS_HTML', content: ENV['FROM_ADDRESS']}
-    ]
-
-    options['mailer'] = :send_in_blue
-
-    EmailWorker.perform_async(options)
+    options[:company] = ENV['FROM_COMPANY']
+    options[:description] = ENV['FROM_DESCRIPTION'] || "You are receiving this email because you have signed up for #{get_app_name}."
+    options[:list_address_html] = ENV['FROM_ADDRESS']
+    options[:mailer] = :send_in_blue
+    perform options
   end
-
 end

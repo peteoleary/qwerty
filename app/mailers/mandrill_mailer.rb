@@ -4,7 +4,6 @@ class MandrillMailer < Devise::Mailer
   include MailerTools
 
   def confirmation_instructions(record, token, opts={})
-    # code to be added here later
     options = {
         :subject => "#{get_app_name} Sign Up confirmation",
         :to_email => record.email,
