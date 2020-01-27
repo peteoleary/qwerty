@@ -19,7 +19,7 @@ class SendInBlueMailer < Devise::Mailer
     options = {
         :subject => "#{get_app_name} Password Reset",
         :to_email => record.email,
-        :user_registration_link => "#{get_app_host}/user/new_password?reset_password_token=#{token}",
+        :user_registration_link => "#{get_app_host}/password_reset?reset_password_token=#{token}",
         :template => "reset-password"
     }
     send_in_blue_send options
