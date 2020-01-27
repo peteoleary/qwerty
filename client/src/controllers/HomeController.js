@@ -1,8 +1,9 @@
 import { Controller } from 'controllerim';
 
-import AuthServices, { AuthenticatedController } from '../services/AuthServices.js'
+import AuthServices from '../services/AuthServices.js'
+import PageController from './PageController.js'
 
-export class HomeController extends AuthenticatedController {
+export class HomeController extends PageController {
 
     static controllerName = 'HomeController'
 

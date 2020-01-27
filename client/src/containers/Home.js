@@ -26,9 +26,10 @@ export const Home = observer(class extends Component {
     componentWillMount() {
         this.controller = new HomeController(this);
 
+        // TODO: move this logic to a concern for Components which require authentication
         this.controller.isLoggedIn().then((logged_in) => {
             if (!logged_in) {
-                this.setState({redirect: '/login'})
+                this.controller.state.redirect = '/login'
             }
         })
         

@@ -17,9 +17,11 @@
     "react": "^16.9.0",
     "react-bootstrap": "^1.0.0-beta.11",
     "react-dom": "^16.9.0",
+    "react-ga": "^2.7.0",
     "react-router-dom": "^5.0.1",
     "react-s-alert": "^1.4.1",
     "react-scripts": "3.1.1",
+    "react-stringify": "^1.0.0",
     "stringquery": "^1.0.8",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8"

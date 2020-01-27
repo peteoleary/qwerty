@@ -1,15 +1,18 @@
-import { Controller } from 'controllerim';
+import AuthServices from '../services/AuthServices.js'
+import PageController  from './PageController.js';
 
-import {AuthenticatedController, AuthServices} from '../services/AuthServices.js'
-
-export class LoginController extends AuthenticatedController {
+export class LoginController extends PageController {
 
     static controllerName = 'LoginController'
 
     constructor(comp) {
         super(comp);
         this.state = {
-
+            ...{
+                email: "",
+                password: "",
+                did_confirm: comp.query_params['did_confirm']
+            }
         };
     }
 

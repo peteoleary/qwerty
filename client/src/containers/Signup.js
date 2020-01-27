@@ -11,72 +11,37 @@ import "./Signup.css";
 
 import {observer} from "controllerim"
 import {SignupController} from "../controllers/SignupController"
+import { PageComponent } from "./PageComponent";
 
-import qs from "stringquery";
 
-import Alert from 'react-s-alert'
-import 'react-s-alert/dist/s-alert-default.css'
-
-export const Signup = observer(class extends Component {
+export const Signup = observer(class extends PageComponent {
 
     constructor(props) {
         super(props);
-
-        const obj = qs(props.location.search)
-
-        this.state = {
-            is_loading: false,
-            first_name: "",
-            last_name: "",
-            email: "",
-            password: "",
-            password_confirmation: "",
-            confirmation_code: obj['confirmation_code'] || "",
-            redirect: obj['redirect_url'],
-            new_user: null
-        };
     }
 
     componentWillMount() {
         this.controller = new SignupController(this);
 
-        if (this.state.confirmation_code) {
+        if (this.controller.state.confirmation_code) {
             this.handleConfirmationAction(this.state.confirmation_code)
         }
-    }
-
-    validateForm() {
-        return (
-            this.state.email.length > 0 &&
-            this.state.password.length > 0 &&
-            this.state.password === this.state.password_confirmation
-        );
-    }
-
-    validateConfirmationForm() {
-        return this.state.confirmation_code.length > 0;
-    }
-
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
     }
 
     handleSubmit = async event => {
         event.preventDefault();
 
-        this.setState({ is_loading: true });
+        this.controller.state.is_loading = true
 
         this.controller.doSignup(this.state).then((user) => {
 
-            this.setState({ new_user: user });
+            this.controller.statenew_user = user
 
-            this.setState({ is_loading: false });
+            this.controller.state.is_loading = false
         }).catch((error) => {
 
-            Alert.error(error.message)
-            this.setState({ is_loading: false });
+            this.getAlert().error(error.message)
+            this.controller.state.is_loading = false
         })
     }
 
@@ -86,15 +51,15 @@ export const Signup = observer(class extends Component {
     }
 
     handleConfirmationAction(confirmation_code) {
-        this.setState({ is_loading: true });
+        this.controller.state. is_loading = true
         this.controller.doConfirmation(confirmation_code).then(() => {
-            this.setState({ is_loading: false });
+            this.controller.state.is_loading = false
 
-            this.setState({redirect: '/login?did_confirm=true'})
+            this.controller.state.redirect = '/login?did_confirm=true'
 
         }).catch ((message) => {
-            Alert.error(message.message)
-            this.setState({ is_loading: false });
+            this.getAlert().error(message.message)
+            this.controller.state.is_loading = false
         })
     }
 

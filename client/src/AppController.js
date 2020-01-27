@@ -10,12 +10,8 @@ export class AppController extends Controller {
         // get state from localStorage
         this.state = {
             token: localStorage.getItem('token'),
-            client: localStorage.getItem('client')
-        };
-
-        // TODO: get ENV from server/Webpack
-        this.env = {
-            'REACT_APP_URL': 'http://localhost:3000'
+            client: localStorage.getItem('client'),
+            env: comp.env
         }
     }
 
@@ -39,6 +35,6 @@ export class AppController extends Controller {
     }
 
     getEnv(key) {
-        return this.env[key]
+        return this.state.env[key]
     }
 }

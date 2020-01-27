@@ -1089,6 +1089,11 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@macklinu/render-props@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@macklinu/render-props/-/render-props-1.0.1.tgz#9f2df06047d4700ab90da6fe42f4f94cb80fb2c0"
+  integrity sha512-hckIzU7kRKZfr7nLPwDT1Bh9ugCDh2TqHERv+Cctb+JaYWYmC/J+/X3NAbMfwYqD2y+l7CAzVq1K4s4drqtx1A==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -8731,6 +8736,11 @@ react-error-overlay@^6.0.1:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.1.tgz#b8d3cf9bb991c02883225c48044cb3ee20413e0f"
   integrity sha512-V9yoTr6MeZXPPd4nV/05eCBvGH9cGzc52FN8fs0O0TVQ3HYYf1n7EgZVtHbldRq5xU9zEzoXIITjYNIfxDDdUw==
 
+react-ga@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.7.0.tgz#24328f157f31e8cffbf4de74a3396536679d8d7c"
+  integrity sha512-AjC7UOZMvygrWTc2hKxTDvlMXEtbmA0IgJjmkhgmQQ3RkXrWR11xEagLGFGaNyaPnmg24oaIiaNPnEoftUhfXA==
+
 react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.9.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
@@ -8858,6 +8868,13 @@ react-scripts@3.1.1:
     workbox-webpack-plugin "4.3.1"
   optionalDependencies:
     fsevents "2.0.7"
+
+react-stringify@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-stringify/-/react-stringify-1.0.0.tgz#d094e1d228341309988cfb3f26bd61d4a9264ad0"
+  integrity sha512-beDUMm+ZY2Gdh/cZ3j5zXNKghchAWthLNt9nHS2SlgvlHgLGnBhYo1Wk5hDdCjpt08VT6KCbv8ZVsylMxah0/A==
+  dependencies:
+    "@macklinu/render-props" "^1.0.1"
 
 react-transition-group@^4.0.0:
   version "4.3.0"

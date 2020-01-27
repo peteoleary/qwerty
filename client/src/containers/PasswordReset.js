@@ -1,56 +1,39 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
-import "./Login.css";
+import "./PasswordReset.css";
 import {observer} from "controllerim";
 import {PasswordResetController} from "../controllers/PasswordResetController";
+import { PageComponent } from "./PageComponent";
 
-export const PasswordReset = observer(class extends Component {
+export const PasswordReset = observer(class extends PageComponent {
 
         constructor(props) {
             super(props);
-
-            this.state = {
-            };
         }
 
         componentWillMount() {
             this.controller = new PasswordResetController(this);
         }
 
-        validateForm() {
-            return this.state.email.length > 0;
-        }
-
-        handleChange = event => {
-            this.setState({
-                [event.target.id]: event.target.value
-            });
-        }
-
-        handleSubmit = event => {
-            event.preventDefault();
-            // TODO: handle password reset here
-        }
-
         render() {
             return (
                 <div className="PasswordReset">
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.controller.handleSubmit}>
                         <FormGroup controlId="email">
                             <FormLabel>Email</FormLabel>
                             <FormControl
                                 autoFocus
                                 type="email"
-                                value={this.state.email}
-                                onChange={this.handleChange}
+                                value={this.controller.state.email}
+                                onChange={this.controller.handleChange}
                             />
                         </FormGroup>
                         <Button
                             block
-                            disabled={!this.validateForm()}
+                            disabled={!this.controller.validateForm()}
                             type="submit"
                         >
-                            Login
+                            Send Password Reset Email
                         </Button>
                     </form>
                 </div>

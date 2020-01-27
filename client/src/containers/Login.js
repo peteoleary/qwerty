@@ -1,36 +1,21 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Login.css";
-import { Redirect } from 'react-router-dom'
 import {observer} from "controllerim";
 import {LoginController} from "../controllers/LoginController"
+import { PageComponent } from "./PageComponent";
 
-import Alert from 'react-s-alert'
-import 'react-s-alert/dist/s-alert-default.css'
-
-import qs from "stringquery";
-
-export const Login = observer(class extends Component {
+export const Login = observer(class extends PageComponent {
 
     constructor(props) {
         super(props);
-
-        const obj = qs(props.location.search)
-
-        this.state = {
-            email: "",
-            password: "",
-            did_confirm: obj['did_confirm'],
-            redirect: null
-        };
-
     }
 
     componentWillMount() {
         this.controller = new LoginController(this);
 
-        if (this.state.did_confirm) {
-            Alert.info('Your email address was confirmed')
+        if (this.controller.state.did_confirm) {
+            this.getAlert.info('Your email address was confirmed')
         }
     }
 
@@ -38,25 +23,21 @@ export const Login = observer(class extends Component {
         return this.state.email.length > 0 && this.state.password.length > 0;
     }
 
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    }
-
     handleSubmit = event => {
         event.preventDefault();
         this.controller.doLogin(this.state.email, this.state.password).then(() => {
-            this.setState({redirect: '/home'})
+            this.controller.state({redirect: '/home'})
         }
         ).catch((error) => {
-            Alert.error(error.message)
+            this.getAlert.error(error.message)
         })
     }
 
-    renderRedirect(){
-        return this.state.redirect ? <Redirect to={this.state.redirect} /> : null
-      }
+    handleForgotPassword = event => {
+        this.controller.state.redirect = '/password_reset'
+    }
+
+    
 
     render() {
         return ( this.renderRedirect() ||
@@ -87,6 +68,7 @@ export const Login = observer(class extends Component {
                         >
                             Login
                         </Button>
+                        <Button variant="link" onClick={this.handleForgotPassword}>Forgot Password</Button>
                     </form>
             </div>
         );

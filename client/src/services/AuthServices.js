@@ -1,25 +1,6 @@
-import { Controller } from 'controllerim'
-
 const axios = require('axios');
 
-export class AuthenticatedController extends Controller {
-
-    constructor(comp) {
-        super(comp);
-        this.app_controller = this.getParentController('AppController')
-        this.auth_services = new AuthServices(this.app_controller)
-    }
-
-    isLoggedIn () {
-        return this.app_controller.getToken().then((token) => {
-            return this.app_controller.getClient().then((client) => {
-                return client != null && token != null
-            })
-        })
-    }
-}
-
-export class AuthServices {
+export default class AuthServices {
 
     constructor(app_controller) {
         // TODO: maybe check that this is indeed AppController?

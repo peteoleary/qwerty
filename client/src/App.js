@@ -2,15 +2,13 @@ import React from 'react'
 import logo from './logo.svg'
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
-
+import ReactGA from 'react-ga'
 import {Login} from "./containers/Login"
 import {Signup} from "./containers/Signup"
 import {Header} from "./containers/Header"
 import {PasswordReset} from "./containers/PasswordReset"
 import {Home} from "./containers/Home"
-
 import { observer } from 'controllerim'
-
 import { AppController } from './AppController';
 
 import Alert from 'react-s-alert'
@@ -20,6 +18,8 @@ export const App = observer(class extends React.Component {
 
   constructor(props) {
     super(props);
+    if (props.env.REACT_APP_GA_KEY) ReactGA.initialize(props.env.REACT_APP_GA_KEY);
+    this.env = props.env
   }
 
     componentWillMount() {
