@@ -25,7 +25,7 @@ export const PasswordReset = observer(class extends PageComponent {
                                 autoFocus
                                 type="email"
                                 value={this.controller.state.email}
-                                onChange={this.controller.handleChange}
+                                onChange={this.controller.controller.handleChange}
                             />
                         </FormGroup>
                         <Button

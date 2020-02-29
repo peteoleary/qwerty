@@ -12,6 +12,10 @@ export default class PageController extends Controller {
         this.auth_services = new AuthServices(this.app_controller)
     }
 
+    handleChange = event => {
+        this.state[event.target.id] = event.target.value
+    }
+
     isLoggedIn () {
         return this.app_controller.getToken().then((token) => {
             return this.app_controller.getClient().then((client) => {

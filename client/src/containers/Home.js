@@ -4,22 +4,12 @@ import "./Home.css";
 import { Redirect } from 'react-router-dom'
 import {observer} from "controllerim";
 import {HomeController} from "../controllers/HomeController"
+import { PageComponent } from "./PageComponent";
 
-import Alert from 'react-s-alert'
-import 'react-s-alert/dist/s-alert-default.css'
-
-import qs from "stringquery";
-
-export const Home = observer(class extends Component {
+export const Home = observer(class extends PageComponent {
 
     constructor(props) {
         super(props);
-
-        const obj = qs(props.location.search)
-
-        this.state = {
-            redirect: null
-        };
 
     }
 
@@ -34,10 +24,6 @@ export const Home = observer(class extends Component {
         })
         
     }
-
-    renderRedirect(){
-        return this.state.redirect ? <Redirect to={this.state.redirect} /> : null
-      }
 
     render() {
         return ( this.renderRedirect() ||

@@ -24,7 +24,7 @@ export const Signup = observer(class extends PageComponent {
         this.controller = new SignupController(this);
 
         if (this.controller.state.confirmation_code) {
-            this.handleConfirmationAction(this.state.confirmation_code)
+            this.handleConfirmationAction(this.controller.state.confirmation_code)
         }
     }
 
@@ -32,14 +32,10 @@ export const Signup = observer(class extends PageComponent {
         event.preventDefault();
 
         this.controller.state.is_loading = true
-
-        this.controller.doSignup(this.state).then((user) => {
-
+        this.controller.doSignup(this.controller.state).then((user) => {
             this.controller.statenew_user = user
-
             this.controller.state.is_loading = false
         }).catch((error) => {
-
             this.getAlert().error(error.message)
             this.controller.state.is_loading = false
         })
@@ -47,7 +43,7 @@ export const Signup = observer(class extends PageComponent {
 
     handleConfirmationSubmit = async event => {
         event.preventDefault();
-        this.handleConfirmationAction(this.state.confirmation_code)
+        this.handleConfirmationAction(this.controller.state.confirmation_code)
     }
 
     handleConfirmationAction(confirmation_code) {
@@ -63,12 +59,6 @@ export const Signup = observer(class extends PageComponent {
         })
     }
 
-    renderRedirect(){
-        if (this.state.redirect) {
-          return <Redirect to={this.state.redirect} />
-        }
-      }
-
     renderConfirmationForm() {
         return (
             <form onSubmit={this.handleConfirmationSubmit}>
@@ -77,16 +67,16 @@ export const Signup = observer(class extends PageComponent {
                     <FormControl
                         autoFocus
                         type="tel"
-                        value={this.state.confirmation_code}
-                        onChange={this.handleChange}
+                        value={this.controller.state.confirmation_code}
+                        onChange={this.controller.handleChange}
                     />
                     <FormText>Please check your email for the code.</FormText>
                 </FormGroup>
                 <LoaderButton
                     block
-                    disabled={!this.validateConfirmationForm()}
+                    disabled={!this.controller.validateConfirmationForm()}
                     type="submit"
-                    isLoading={this.state.is_loading}
+                    isLoading={this.controller.state.is_loading}
                     text="Verify"
                     loadingText="Verifying…"
                 />
@@ -102,8 +92,8 @@ export const Signup = observer(class extends PageComponent {
                     <FormControl
                         autoFocus
                         type="string"
-                        value={this.state.first_name}
-                        onChange={this.handleChange}
+                        value={this.controller.state.first_name}
+                        onChange={this.controller.handleChange}
                     />
                 </FormGroup>
                 <FormGroup controlId="last_name">
@@ -111,8 +101,8 @@ export const Signup = observer(class extends PageComponent {
                     <FormControl
                         autoFocus
                         type="string"
-                        value={this.state.last_name}
-                        onChange={this.handleChange}
+                        value={this.controller.state.last_name}
+                        onChange={this.controller.handleChange}
                     />
                 </FormGroup>
                 <FormGroup controlId="email">
@@ -120,31 +110,31 @@ export const Signup = observer(class extends PageComponent {
                     <FormControl
                         autoFocus
                         type="email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
+                        value={this.controller.state.email}
+                        onChange={this.controller.handleChange}
                     />
                 </FormGroup>
                 <FormGroup controlId="password">
                     <FormLabel>Password</FormLabel>
                     <FormControl
-                        value={this.state.password}
-                        onChange={this.handleChange}
+                        value={this.controller.state.password}
+                        onChange={this.controller.handleChange}
                         type="password"
                     />
                 </FormGroup>
                 <FormGroup controlId="password_confirmation">
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl
-                        value={this.state.password_confirmation}
-                        onChange={this.handleChange}
+                        value={this.controller.state.password_confirmation}
+                        onChange={this.controller.handleChange}
                         type="password"
                     />
                 </FormGroup>
                 <LoaderButton
                     block
-                    disabled={!this.validateForm()}
+                    disabled={!this.controller.validateForm()}
                     type="submit"
-                    isLoading={this.state.is_loading}
+                    isLoading={this.controller.state.is_loading}
                     text="Signup"
                     loadingText="Signing up…"
                 />
@@ -155,8 +145,7 @@ export const Signup = observer(class extends PageComponent {
     render() {
         return (
             <div className="Signup">
-                {this.state.redirect ? this.renderRedirect() : 
-                    this.state.new_user === null
+                {this.renderRedirect() ||  this.controller.state.new_user === null
                         ? this.renderForm()
                         : this.renderConfirmationForm()}
             </div>

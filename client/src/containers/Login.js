@@ -15,21 +15,21 @@ export const Login = observer(class extends PageComponent {
         this.controller = new LoginController(this);
 
         if (this.controller.state.did_confirm) {
-            this.getAlert.info('Your email address was confirmed')
+            this.getAlert().info('Your email address was confirmed')
         }
     }
 
     validateForm() {
-        return this.state.email.length > 0 && this.state.password.length > 0;
+        return this.controller.state.email.length > 0 && this.controller.state.password.length > 0;
     }
 
     handleSubmit = event => {
         event.preventDefault();
-        this.controller.doLogin(this.state.email, this.state.password).then(() => {
-            this.controller.state({redirect: '/home'})
+        this.controller.doLogin(this.controller.state.email, this.controller.state.password).then(() => {
+            this.controller.state.redirect = '/home'
         }
         ).catch((error) => {
-            this.getAlert.error(error.message)
+            this.getAlert().error(error.message)
         })
     }
 
@@ -49,15 +49,15 @@ export const Login = observer(class extends PageComponent {
                             <FormControl
                                 autoFocus
                                 type="email"
-                                value={this.state.email}
-                                onChange={this.handleChange}
+                                value={this.controller.state.email}
+                                onChange={this.controller.handleChange}
                             />
                         </FormGroup>
                         <FormGroup controlId="password">
                             <FormLabel>Password</FormLabel>
                             <FormControl
-                                value={this.state.password}
-                                onChange={this.handleChange}
+                                value={this.controller.password}
+                                onChange={this.controller.handleChange}
                                 type="password"
                             />
                         </FormGroup>

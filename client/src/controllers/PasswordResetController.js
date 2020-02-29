@@ -22,11 +22,6 @@ export class PasswordResetController extends PageController {
         return this.state.email.length > 0;
     }
 
-    // TODO: this handleChange should be in a the base class or a mixin
-    handleChange = event => {
-        this.state[event.target.id] = event.target.value
-    }
-
     handleSubmit = event => {
         event.preventDefault();
         this.doPasswordReset(this.state.email, `${this.app_controller.getEnv('REACT_APP_URL')}/user/change_password`)
