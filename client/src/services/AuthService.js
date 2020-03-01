@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-export default class AuthServices {
+export default class AuthService {
 
     constructor(app_controller) {
         // TODO: maybe check that this is indeed AppController?

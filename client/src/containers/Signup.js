@@ -51,7 +51,7 @@ export const Signup = observer(class extends PageComponent {
         this.controller.doConfirmation(confirmation_code).then(() => {
             this.controller.state.is_loading = false
 
-            this.controller.state.redirect = '/login?did_confirm=true'
+            this.controller.setRedirect ('/login?did_confirm=true')
 
         }).catch ((message) => {
             this.getAlert().error(message.message)

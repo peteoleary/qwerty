@@ -1,7 +1,3 @@
-import { Controller } from 'controllerim';
-
-import AuthServices from '../services/AuthServices.js'
-
 import PageController from './PageController.js'
 
 export class PasswordResetController extends PageController {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./Login.css";
 import {observer} from "controllerim";
@@ -26,7 +26,7 @@ export const Login = observer(class extends PageComponent {
     handleSubmit = event => {
         event.preventDefault();
         this.controller.doLogin(this.controller.state.email, this.controller.state.password).then(() => {
-            this.controller.state.redirect = '/home'
+            this.controller.setRedirect ('/home')
         }
         ).catch((error) => {
             this.getAlert().error(error.message)
@@ -34,7 +34,7 @@ export const Login = observer(class extends PageComponent {
     }
 
     handleForgotPassword = event => {
-        this.controller.state.redirect = '/password_reset'
+        this.controller.setRedirect ('/password_reset' )
     }
 
     

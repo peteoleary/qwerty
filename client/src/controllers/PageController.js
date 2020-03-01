@@ -1,5 +1,5 @@
 import { Controller } from 'controllerim';
-import AuthServices from "../services/AuthServices"
+import AuthService from "../services/AuthService"
 
 export default class PageController extends Controller {
 
@@ -9,11 +9,15 @@ export default class PageController extends Controller {
             internal_redirect: null  // used to redirect OUT of this page/controller
         }
         this.app_controller = this.getParentController('AppController')
-        this.auth_services = new AuthServices(this.app_controller)
+        this.auth_services = new AuthService(this.app_controller)
     }
 
     handleChange = event => {
         this.state[event.target.id] = event.target.value
+    }
+
+    setRedirect(url) {
+        this.state.internal_redirect = url
     }
 
     isLoggedIn () {
@@ -21,6 +25,15 @@ export default class PageController extends Controller {
             return this.app_controller.getClient().then((client) => {
                 return client != null && token != null
             })
+        })
+    }
+
+    mustLogIn() {
+        // TODO: move this logic to a concern for Components which require authentication
+        this.isLoggedIn().then((logged_in) => {
+            if (!logged_in) {
+                this.controller.state.internal_redirect = '/login'
+            }
         })
     }
 }

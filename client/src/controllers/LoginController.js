@@ -1,4 +1,3 @@
-import AuthServices from '../services/AuthServices.js'
 import PageController  from './PageController.js';
 
 export class LoginController extends PageController {

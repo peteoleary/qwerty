@@ -12,7 +12,7 @@ export class  PageComponent extends Component {
     }
 
     renderRedirect(){
-        return this.controller.state.redirect ? <Redirect to={this.controller.state.redirect} /> : null
+        return this.controller.state.internal_redirect ? <Redirect to={this.controller.state.internal_redirect} /> : null
       }
 
     getAlert() {

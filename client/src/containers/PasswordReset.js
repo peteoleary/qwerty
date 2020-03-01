@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./PasswordReset.css";
 import {observer} from "controllerim";
