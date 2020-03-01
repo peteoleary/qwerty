@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.4.0'
+ruby '2.5.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
@@ -18,13 +18,13 @@ gem 'sidekiq'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
-gem 'mini_magick', '~> 4.8'
+gem "mini_magick", ">= 4.9.4"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 # ActiveAdmin
-gem 'devise'
+gem "devise", ">= 4.7.1"
 gem 'activeadmin'
 
 # Reduces boot times through caching; required in config/boot.rb
@@ -37,7 +37,7 @@ gem 'rack-cors'
 gem 'sib-api-v3-sdk'
 
 gem 'active_model_serializers'
-gem 'devise_token_auth'
+gem 'devise_token_auth', "1.1.3"
 
 gem 'aws-sdk', '~> 2'
 gem "fog-aws"
