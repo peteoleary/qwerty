@@ -42,6 +42,9 @@ gem 'devise_token_auth', "1.1.3"
 gem 'aws-sdk', '~> 2'
 gem "fog-aws"
 
+gem 'rqrcode'
+gem 'rebrandly'
+
 gem 'dotenv', require: true
 
 group :development, :test do

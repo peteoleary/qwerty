@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     }
     resources :users
+    resources :qr_codes
   end
 
   ActiveAdmin.routes(self)
