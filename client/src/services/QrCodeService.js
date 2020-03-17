@@ -1,7 +1,10 @@
-const axios = require('axios');
-import  AuthService from "AuthService.js"
+export default class QrCodeService {
 
-export default class QrCodeService extends AuthService {
+    constructor(auth_service) {
+        this.auth_service = auth_service;
+    }
 
-    
+    newQrCode(params) {
+        return this.auth_service.authenticatedPost('/api/qr_codes', params)
+    }
 }

@@ -11,21 +11,33 @@ export default class AuthService {
         return {'Content-Type': 'application/json'}
     }
 
+    //  TODO: remind me why getToken() and getClient() return Promises? Something to do with ControllerIM if I remember correctly.
+
     authenticated_header = () => {
-        return {
-            'Content-Type': 'application/json',
-            'access-token': this.app_controller.getToken(),
-            'client': this.app_controller.getClient()
-        }
+        return this.app_controller.getToken().then((token) => {
+            return this.app_controller.getClient().then((client) => {
+                return {
+                    'Content-Type': 'application/json',
+                    'access-token': token,
+                    'client': client
+                }
+            })
+        })
+    }
+
+    authenticatedGet = (url) => {
+        return axios.get(url , {headers: this.anonymous_header()})
+    }
+
+    authenticatedPost = (url, body) => {
+        return axios.post(url, body, {headers: this.authenticated_header()})
     }
 
     confirmUser = (confirmation_token) => {
-        return axios.get(`/api/auth/confirmation?confirmation_token=${confirmation_token}` , {headers: this.anonymous_header()})
+        return this.authenticatedGet(`/api/auth/confirmation?confirmation_token=${confirmation_token}`)
     }
 
     resetPassword = (email, redirect_url)  => {
-
-        // sign in API call here
         return axios.post("/api/auth/password" ,{email:email, redirect_url:redirect_url}, {headers: this.anonymous_header()})
     }
 

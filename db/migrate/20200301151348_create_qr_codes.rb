@@ -3,8 +3,13 @@ class CreateQrCodes < ActiveRecord::Migration[5.2]
     create_table :qr_codes do |t|
 
       t.references  :user
-      t.string            :permanent_url
-      t.string            :current_url
+
+      t.string            :shortened_url
+      t.string            :shortened_url_id
+
+      t.string            :url
+      t.string            :title
+      t.string            :description
 
       t.timestamps
     end

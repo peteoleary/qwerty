@@ -1,4 +1,4 @@
-class QrCodeController < ApiController
+class QrCodesController < ApiController
 
   def scope
     QrCode
