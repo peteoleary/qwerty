@@ -14,19 +14,16 @@ export default class AuthService {
     //  TODO: remind me why getToken() and getClient() return Promises? Something to do with ControllerIM if I remember correctly.
 
     authenticated_header = () => {
-        return this.app_controller.getToken().then((token) => {
-            return this.app_controller.getClient().then((client) => {
-                return {
-                    'Content-Type': 'application/json',
-                    'access-token': token,
-                    'client': client
-                }
-            })
-        })
+        return {
+            'Content-Type': 'application/json',
+            'access-token': this.app_controller.getToken(),
+            'client': this.app_controller.getClient(),
+            'uid': this.app_controller.getUid()
+        }
     }
 
     authenticatedGet = (url) => {
-        return axios.get(url , {headers: this.anonymous_header()})
+        return axios.get(url , {headers: this.authenticated_header()})
     }
 
     authenticatedPost = (url, body) => {
@@ -34,7 +31,7 @@ export default class AuthService {
     }
 
     confirmUser = (confirmation_token) => {
-        return this.authenticatedGet(`/api/auth/confirmation?confirmation_token=${confirmation_token}`)
+        return axios.get(`/api/auth/confirmation?confirmation_token=${confirmation_token}`)
     }
 
     resetPassword = (email, redirect_url)  => {
@@ -50,6 +47,7 @@ export default class AuthService {
 
             that.app_controller.setToken(resp.headers['access-token'])
             that.app_controller.setClient(resp.headers.client)
+            that.app_controller.setUid(resp.headers.uid)
 
             return axios.put('/api/auth/password', {password: password, password_confirmation: password_confirmation}, {headers: this.authenticated_header()})
         })
@@ -67,6 +65,7 @@ export default class AuthService {
 
                     that.app_controller.setToken(resp.headers['access-token'])
                     that.app_controller.setClient(resp.headers.client)
+                    that.app_controller.setUid(resp.headers.uid)
 
                     return Promise.resolve(resp.headers.client, resp.headers['access-token'])
                 })

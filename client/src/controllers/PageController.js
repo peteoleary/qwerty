@@ -21,19 +21,13 @@ export default class PageController extends Controller {
     }
 
     isLoggedIn () {
-        return this.app_controller.getToken().then((token) => {
-            return this.app_controller.getClient().then((client) => {
-                return client != null && token != null
-            })
-        })
+                return this.app_controller.getToken() != null && this.app_controller.getClient() != null
     }
 
     mustLogIn() {
         // TODO: move this logic to a concern for Components which require authentication
-        this.isLoggedIn().then((logged_in) => {
-            if (!logged_in) {
+            if (!this.isLoggedIn()) {
                 this.controller.state.internal_redirect = '/login'
             }
-        })
     }
 }

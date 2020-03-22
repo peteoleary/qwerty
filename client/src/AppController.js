@@ -11,13 +11,22 @@ export class AppController extends Controller {
         this.state = {
             token: localStorage.getItem('token'),
             client: localStorage.getItem('client'),
+            uid: localStorage.getItem('uid'),
             env: comp.env
         }
     }
 
 
     getToken() {
-        return Promise.resolve(this.state.token);
+        return (this.state.token);
+    }
+
+    getUid() {
+        return (this.state.uid);
+    }
+
+    getClient() {
+        return (this.state.client);
     }
 
     setToken(value) {
@@ -25,8 +34,9 @@ export class AppController extends Controller {
         localStorage.setItem('token', this.state.token);
     }
 
-    getClient() {
-        return Promise.resolve(this.state.client);
+    setUid(value) {
+        this.state.uid  = value;
+        localStorage.setItem('uid', this.state.uid);
     }
 
     setClient(value) {

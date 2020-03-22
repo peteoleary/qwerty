@@ -22,7 +22,6 @@ export const Home = observer(class extends PageComponent {
         return ( this.renderRedirect() ||
             <div className="Home">
                 
-                <Form onSubmit={this.controller.handleSubmit}>
                     <FormLabel>
                     URL:
                     <FormControl id='url' type="text" value={this.controller.state.url} onChange={this.controller.handleChange} />
@@ -35,10 +34,9 @@ export const Home = observer(class extends PageComponent {
                     Description:
                     <FormControl id='description' type="text" value={this.controller.state.description} onChange={this.controller.handleChange} />
                     </FormLabel>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" onClick={this.controller.handleSubmit}>
                         Submit
                     </Button>
-                </Form>
                     
             </div>
         );
