@@ -26,7 +26,7 @@ export const Login = observer(class extends PageComponent {
     handleSubmit = event => {
         event.preventDefault();
         this.controller.doLogin(this.controller.state.email, this.controller.state.password).then(() => {
-            this.controller.setRedirect ('/home')
+            this.controller.setRedirect ('/')
         }
         ).catch((error) => {
             this.getAlert().error(error.message)

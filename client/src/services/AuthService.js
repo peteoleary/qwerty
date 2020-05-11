@@ -11,23 +11,29 @@ export default class AuthService {
         return {'Content-Type': 'application/json'}
     }
 
-    //  TODO: remind me why getToken() and getClient() return Promises? Something to do with ControllerIM if I remember correctly.
-
     authenticated_header = () => {
         return {
             'Content-Type': 'application/json',
-            'access-token': this.app_controller.getToken(),
-            'client': this.app_controller.getClient(),
-            'uid': this.app_controller.getUid()
+            'access-token': this.app_controller.state.token,
+            'client': this.app_controller.state.client,
+            'uid': this.app_controller.state.uid
         }
     }
 
     authenticatedGet = (url) => {
-        return axios.get(url , {headers: this.authenticated_header()})
+        var that = this;
+        return axios.get(url , {headers: this.authenticated_header()}).then(function(result) {
+            that.app_controller.setCredentialsFromHeader(result.headers)
+            return result
+        })
     }
 
     authenticatedPost = (url, body) => {
-        return axios.post(url, body, {headers: this.authenticated_header()})
+        var that = this;
+        return axios.post(url, body, {headers: this.authenticated_header()}).then(function(result) {
+            that.app_controller.setCredentialsFromHeader(result.headers)
+            return result
+        })
     }
 
     confirmUser = (confirmation_token) => {
@@ -45,9 +51,7 @@ export default class AuthService {
         return axios.get(`/api/auth/password/edit?reset_password_token=${token}&redirect_url=${redirect_url_base}/api/auth/validate_token`, {headers: this.anonymous_header()}).then((resp) => {
             console.info(resp)
 
-            that.app_controller.setToken(resp.headers['access-token'])
-            that.app_controller.setClient(resp.headers.client)
-            that.app_controller.setUid(resp.headers.uid)
+            that.app_controller.setCredentialsFromHeader(resp.headers)
 
             return axios.put('/api/auth/password', {password: password, password_confirmation: password_confirmation}, {headers: this.authenticated_header()})
         })
@@ -63,9 +67,7 @@ export default class AuthService {
             return axios.post("/api/auth/sign_in" ,{email:email, password:password}, {headers: this.anonymous_header()})
                 .then(function(resp){
 
-                    that.app_controller.setToken(resp.headers['access-token'])
-                    that.app_controller.setClient(resp.headers.client)
-                    that.app_controller.setUid(resp.headers.uid)
+                    that.app_controller.setCredentialsFromHeader(resp.headers)
 
                     return Promise.resolve(resp.headers.client, resp.headers['access-token'])
                 })

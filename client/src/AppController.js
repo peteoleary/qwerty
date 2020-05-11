@@ -16,32 +16,43 @@ export class AppController extends Controller {
         }
     }
 
-
-    getToken() {
-        return (this.state.token);
-    }
-
-    getUid() {
-        return (this.state.uid);
-    }
-
-    getClient() {
-        return (this.state.client);
+    setLocalStorage(key, value) {
+        // clear the key completely if value is null
+        
+        if (value) {
+            localStorage.setItem(key, value)
+            // console.log(`setLocalStorage setting ${key}`)
+        } else {
+            localStorage.removeItem(key);
+            // console.log(`setLocalStorage clearing ${key}`)
+        }
     }
 
     setToken(value) {
         this.state.token  = value;
-        localStorage.setItem('token', this.state.token);
+        this.setLocalStorage('token', value)
     }
 
     setUid(value) {
         this.state.uid  = value;
-        localStorage.setItem('uid', this.state.uid);
+        this.setLocalStorage('uid', value)
     }
 
     setClient(value) {
         this.state.client  = value;
-        localStorage.setItem('client', this.state.client);
+        this.setLocalStorage('client', value)
+    }
+
+    setCredentialsFromHeader(headers) {
+
+        if (this.state.client == headers.client && !headers['access-token']){
+            // console.log(`setCredentialsFromHeader skipping`)
+            return;
+        }
+
+        this.setToken(headers['access-token'])
+        this.setClient(headers.client)
+        this.setUid(headers.uid)
     }
 
     getEnv(key) {

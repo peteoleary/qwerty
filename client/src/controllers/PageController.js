@@ -20,14 +20,29 @@ export default class PageController extends Controller {
         this.state.internal_redirect = url
     }
 
+    logout() {
+        this.app_controller.setToken(null)
+        this.app_controller.setClient(null)
+        this.app_controller.setUid(null)
+    }
+
     isLoggedIn () {
-                return this.app_controller.getToken() != null && this.app_controller.getClient() != null
+                return this.app_controller.state.token != null && this.app_controller.state.client != null
+    }
+
+    wrapPromiseResult(promise) {
+        return promise.then(result => {
+            return result
+        }).catch(error => {
+            this.logout()
+            return error
+        })
     }
 
     mustLogIn() {
         // TODO: move this logic to a concern for Components which require authentication
             if (!this.isLoggedIn()) {
-                this.controller.state.internal_redirect = '/login'
+                this.state.internal_redirect = '/login'
             }
     }
 }

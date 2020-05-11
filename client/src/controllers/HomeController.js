@@ -7,14 +7,23 @@ export class HomeController extends PageController {
 
     constructor(comp) {
         super(comp);
+        this.qr_code_service = new QrCodeService(this.auth_services)
         this.state = {
             url: '',
             title: '',
-            description: ''
+            description: '',
+            qr_codes_list: []
         };
     }
 
+    loadQrCodesList() {
+        this.wrapPromiseResult(this.qr_code_service.getQrCodes()).then(result =>
+            this.state.qr_codes_list = result
+        )
+    }
+
     handleSubmit() {
-        new QrCodeService(this.auth_services).newQrCode(this.state)
+        var result = this.wrapPromiseResult(this.qr_code_service.newQrCode(this.state))
+        console.log(result)
     }
 }
