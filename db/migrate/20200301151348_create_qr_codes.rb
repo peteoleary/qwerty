@@ -11,6 +11,8 @@ class CreateQrCodes < ActiveRecord::Migration[5.2]
       t.string            :title
       t.string            :description
 
+      t.text              :qr_code_svg
+
       t.timestamps
     end
   end

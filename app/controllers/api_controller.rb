@@ -4,7 +4,7 @@ class ApiController < ActionController::Base
   before_action :set_object, only: [:show, :update, :destroy]
 
   # NOTE: shut down unauthenticated access to ALL /api endpoints except a few
-  # that are explicitly exposed such as POST /user and /question_banks
+  # that are explicitly exposed such as POST /user
   before_action :authenticate_user!
 
   def filtered_scope

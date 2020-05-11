@@ -7,7 +7,7 @@ class QrCodeService
 
   def make_code url
     # http://goqr.me/api/doc/create-qr-code/
-    response = HTTParty.get(@url_base + "/create-qr-code/?data=#{url.to_query}&size=400x400&format=svg")
+    response = HTTParty.get(@url_base + "/create-qr-code/?#{url.to_query('data')}&size=400x400&format=svg")
     response.body
   end
 end
