@@ -22,7 +22,7 @@
     "react-s-alert": "^1.4.1",
     "react-scripts": "3.1.1",
     "react-stringify": "^1.0.0",
-    "react-virtualized-auto-sizer": "^1.0.2",
+    "react-virtualized": "^9.21.2",
     "react-window": "^1.8.5",
     "stringquery": "^1.0.8",
     "webpack": "^4.39.3",

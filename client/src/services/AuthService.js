@@ -8,16 +8,21 @@ export default class AuthService {
     }
 
     anonymous_header = () => {
-        return {'Content-Type': 'application/json'}
+        return {
+            'Content-Type': 'application/json', 
+            'Cache-Control': 'no-cache'
+        }
     }
 
     authenticated_header = () => {
-        return {
-            'Content-Type': 'application/json',
+        var headers = Object.assign({
             'access-token': this.app_controller.state.token,
             'client': this.app_controller.state.client,
             'uid': this.app_controller.state.uid
-        }
+        }, this.anonymous_header());
+
+        console.log(headers)
+        return headers;
     }
 
     authenticatedGet = (url) => {

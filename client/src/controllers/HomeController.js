@@ -17,13 +17,23 @@ export class HomeController extends PageController {
     }
 
     loadQrCodesList() {
-        this.wrapPromiseResult(this.qr_code_service.getQrCodes()).then(result =>
-            this.state.qr_codes_list = result
+        this.wrapPromiseResult(this.qr_code_service.getQrCodes()).then(result => {
+            // console.log(`loadQrCodesList: ${result.data}`);
+            this.state.qr_codes_list = result.data
+        }
         )
     }
 
     handleSubmit() {
-        var result = this.wrapPromiseResult(this.qr_code_service.newQrCode(this.state))
-        console.log(result)
+        var request_params = {
+            title: this.state.title,
+            url: this.state.url,
+            description: this.state.description
+        }
+        this.wrapPromiseResult(this.qr_code_service.newQrCode(request_params)).then(result => {
+            console.log(`handleSubmit: ${result.data}`);
+            this.state.qr_codes_list.push(result.data)
+        }
+        )
     }
 }

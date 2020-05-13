@@ -6,8 +6,17 @@ import {observer} from "controllerim";
 import {HomeController} from "../controllers/HomeController"
 import { PageComponent } from "./PageComponent";
 
-import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import {Card, Container, Row, Col} from "react-bootstrap";
+import {AutoSizer, List} from "react-virtualized";
+import 'react-virtualized/styles.css';
+
+import {ReactComponent as MissingSVG} from './Missing.svg'
+
+const cardHeightInREM = 40
+
+function convertRemToPixels(rem) {    
+    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
 
 
 export const Home = observer(class extends PageComponent {
@@ -23,12 +32,61 @@ export const Home = observer(class extends PageComponent {
         this.controller.loadQrCodesList()
     }
 
+    drawCell(columnIndex, rowIndex) {
+        switch (columnIndex) {
+            case 0:
+                return this.controller.state.qr_codes_list[rowIndex].url
+            case 1:
+                return this.controller.state.qr_codes_list[rowIndex].title
+            case 2:
+                return this.controller.state.qr_codes_list[rowIndex].description
+        }
+    }
+
+    injectSVG(raw_svg) {
+        // remove <?xml version="1.0" standalone="no"?>
+
+        raw_svg = raw_svg.replace('<?xml version="1.0" standalone="no"?>', '')
+        var svg = <div>
+            { <div dangerouslySetInnerHTML={{ __html: raw_svg }} /> }
+        </div>
+        return svg
+        // var re =  new RegExp('<?xml(.*?)\?>(.*)')
+        // var matches = re.exec(raw_svg)
+        // return <MissingSVG />
+    }
+
+    rowRender({key, index, style}) {
+        return (
+            <Card style={{ width: '50rem', height: cardHeightInREM + 'rem' }}>
+                <Card.Body>
+                    <Container>
+                    <Row>
+                        <Col>
+                            <Card.Title>{this.controller.state.qr_codes_list[index].title}</Card.Title>
+                            <Card.Text>
+                            {this.controller.state.qr_codes_list[index].description}
+                            </Card.Text>
+                            <Card.Text>
+                            {this.controller.state.qr_codes_list[index].shortened_url}
+                            </Card.Text>
+                            <Button variant="primary">Edit</Button>
+                        </Col>
+                        <Col>
+                            {this.injectSVG(this.controller.state.qr_codes_list[index].qr_code_svg)}
+                        </Col>
+                    </Row>
+                    </Container>
+                   
+                </Card.Body>
+            </Card>
+        )
+    }
+
     render() {
-        const Row = ({ index, style }) => (
-            <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
-              Row {index}
-            </div>
-          );
+          
+        console.log(`Home.js render: ${this.controller.state.qr_codes_list}`);
+        const list = this.controller.state.qr_codes_list
         return ( this.renderRedirect() ||
             <div className="Home">
                 
@@ -52,12 +110,11 @@ export const Home = observer(class extends PageComponent {
                         <List
                             className="List"
                             height={height}
-                            itemCount={this.controller.state.qr_codes_list.length}
-                            itemSize={35}
+                            rowCount={this.controller.state.qr_codes_list.length}
+                            rowHeight={convertRemToPixels(cardHeightInREM)}
                             width={width}
-                        >
-                            {Row}
-                        </List>
+                            rowRenderer={this.rowRender.bind(this)}
+                        />
                         )}
                     </AutoSizer>
             </div>

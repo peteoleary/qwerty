@@ -1,7 +1,7 @@
 class QrCode < ApplicationRecord
 
   belongs_to :user
-  before_commit :shorten_url, on: :create
+  before_save :shorten_url, on: :create
   before_commit :update_shortened_url, on: :update
   before_commit :destroy_shortened_url, on: :destroy
 
@@ -13,7 +13,7 @@ class QrCode < ApplicationRecord
   def shorten_url
     handle_shortened_url_response RebrandlyService.new.new_link(url, title)
 
-    qr_code = QrCodeService.new.make_code self.shortened_url
+    self.qr_code_svg = QrCodeService.new.make_code self.shortened_url
   end
 
   def update_shortened_url
