@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     }
     resources :users
     resources :qr_codes
+    resources :items
   end
 
   ActiveAdmin.routes(self)
