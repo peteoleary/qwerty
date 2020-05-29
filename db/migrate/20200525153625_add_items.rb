@@ -7,6 +7,8 @@ class AddItems < ActiveRecord::Migration[5.2]
       # for now, clothing can have only one QR code on it
       t.references  :qr_code
 
+      t.string            :uid
+
       t.string            :title
       t.string            :description
       t.string            :image_url

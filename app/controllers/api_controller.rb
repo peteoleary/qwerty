@@ -40,7 +40,7 @@ class ApiController < ActionController::Base
     can_edit?
   end
 
-  def can_edit?
+  def can_edit? 
     @object.respond_to?('user_id') && @object.user_id == current_user.id
   end
 

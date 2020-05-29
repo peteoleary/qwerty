@@ -6,7 +6,7 @@ class RebrandlyService
   end
 
   def make_options options
-    options.merge! domain: ENV['REBRANDLY_DOMAIN'] if ENV['REBRANDLY_DOMAIN'].present?
+    options.merge!({'domain': {'id': ENV['REBRANDLY_DOMAIN_ID']}}) if ENV['REBRANDLY_DOMAIN_ID'].present?
     options
   end
 

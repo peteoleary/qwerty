@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2020_05_25_153625) do
   create_table "items", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "qr_code_id"
+    t.string "uid"
     t.string "title"
     t.string "description"
     t.string "image_url"
