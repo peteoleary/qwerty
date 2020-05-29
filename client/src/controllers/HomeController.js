@@ -19,7 +19,7 @@ export class HomeController extends PageController {
     loadQrCodesList() {
         this.wrapPromiseResult(this.qr_code_service.getQrCodes()).then(result => {
             // console.log(`loadQrCodesList: ${result.data}`);
-            this.state.qr_codes_list = result.data
+            this.state.qr_codes_list = result.data || []
         }
         )
     }

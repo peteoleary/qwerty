@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Form, Button, FormControl, FormLabel } from "react-bootstrap";
 import "./Home.css";
@@ -12,12 +13,25 @@ import 'react-virtualized/styles.css';
 
 import {ReactComponent as MissingSVG} from './Missing.svg'
 
+const saveSvgAsPng = require('save-svg-as-png')
+
 const cardHeightInREM = 40
 
 function convertRemToPixels(rem) {    
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 
+function camelToSnake(string) {
+    return string.replace(/[\w]([A-Z])/g, function(m) {
+        return m[0] + "_" + m[1];
+    }).toLowerCase();
+}
+
+// https://github.com/exupero/saveSvgAsPng
+const imageOptions = {
+    scale: 5,
+    encoderOptions: 1
+  }
 
 export const Home = observer(class extends PageComponent {
 
@@ -42,13 +56,23 @@ export const Home = observer(class extends PageComponent {
                 return this.controller.state.qr_codes_list[rowIndex].description
         }
     }
+    
 
-    injectSVG(raw_svg) {
+    injectSVG(index) {
+        let raw_svg = this.controller.state.qr_codes_list[index].qr_code_svg,
+            download_file_name = this.controller.state.qr_codes_list[index].title
         // remove <?xml version="1.0" standalone="no"?>
 
         raw_svg = raw_svg.replace('<?xml version="1.0" standalone="no"?>', '')
+
+        const base_64_svg = new Buffer(raw_svg).toString('base64');
+
         var svg = <div>
-            { <div dangerouslySetInnerHTML={{ __html: raw_svg }} /> }
+            { 
+            <a download={download_file_name + ".svg"} href-lang='image/svg+xml' href={ 'data:image/svg+xml;base64,\n' + base_64_svg + "'"}>
+            <div id={camelToSnake(download_file_name) + "_" + index} dangerouslySetInnerHTML={{ __html: raw_svg }} />
+            </a> 
+        }
         </div>
         return svg
         // var re =  new RegExp('<?xml(.*?)\?>(.*)')
@@ -56,9 +80,20 @@ export const Home = observer(class extends PageComponent {
         // return <MissingSVG />
     }
 
+    handleDownload(e, index) {
+        console.log(`index = ` + index)
+        let download_file_name = this.controller.state.qr_codes_list[index].title
+        console.log(`download_file_name = ` + download_file_name)
+        var el = document.querySelector("#" + camelToSnake(download_file_name) + "_" + index + " > svg")
+        console.log(`el = ` + el)
+
+        //*[@id="b_fh_4"]/svg
+        saveSvgAsPng.saveSvgAsPng(el, download_file_name + '.png', imageOptions);
+      };
+
     rowRender({key, index, style}) {
         return (
-            <Card style={{ width: '50rem', height: cardHeightInREM + 'rem' }}>
+            <Card style={{ width: '50rem', height: cardHeightInREM + 'rem' }} key={'qr_code_' + index}>
                 <Card.Body>
                     <Container>
                     <Row>
@@ -71,9 +106,10 @@ export const Home = observer(class extends PageComponent {
                             {this.controller.state.qr_codes_list[index].shortened_url}
                             </Card.Text>
                             <Button variant="primary">Edit</Button>
+                            <Button onClick={e => this.handleDownload(e, index)} variant="primary">Download PNG</Button>
                         </Col>
                         <Col>
-                            {this.injectSVG(this.controller.state.qr_codes_list[index].qr_code_svg)}
+                            {this.injectSVG(index)}
                         </Col>
                     </Row>
                     </Container>
