@@ -11,4 +11,12 @@ export default class QrCodeService {
     getQrCodes() {
         return this.auth_service.authenticatedGet('/api/qr_codes')
     }
+
+    newItem(params) {
+        return this.auth_service.authenticatedPost('/api/items', params)
+    }
+
+    getItems() {
+        return this.auth_service.authenticatedGet('/api/items')
+    }
 }

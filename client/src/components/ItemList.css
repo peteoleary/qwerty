@@ -1,0 +1,14 @@
+.ItemList {
+    border: 1px solid #d9dddd;
+  }
+  
+  .ItemListItemEven,
+  .ItemListItemOdd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .ItemListItemEven {
+    background-color: #f8f8f0;
+  }

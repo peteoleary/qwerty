@@ -1,0 +1,14 @@
+.QrCodeList {
+    border: 1px solid #d9dddd;
+  }
+  
+  .QrCodeListItemEven,
+  .QrCodeListItemOdd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .QrCodeListItemEven {
+    background-color: #f8f8f0;
+  }

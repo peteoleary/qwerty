@@ -12,15 +12,21 @@ export class HomeController extends PageController {
             url: '',
             title: '',
             description: '',
-            qr_codes_list: []
+            qr_codes_list: [],
+            items_list: []
         };
     }
 
-    loadQrCodesList() {
+    loadLists() {
         this.wrapPromiseResult(this.qr_code_service.getQrCodes()).then(result => {
             // console.log(`loadQrCodesList: ${result.data}`);
             this.state.qr_codes_list = result.data || []
-        }
+            }
+        )
+        this.wrapPromiseResult(this.qr_code_service.getItems()).then(result => {
+            // console.log(`loadQrCodesList: ${result.data}`);
+            this.state.items_list = result.data || []
+            }
         )
     }
 
