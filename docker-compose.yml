@@ -14,11 +14,11 @@ services:
       - 'redis:/data'
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3001 -b '0.0.0.0'"
     volumes:
-      - .:/ecommerce-gifts
+      - .:/qwerty
     ports:
-      - "3000:3000"
+      - "3001:3001"
     env_file:
       - docker.env # configure postgres
     depends_on:
