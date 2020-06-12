@@ -27,6 +27,7 @@ gem "mini_magick", ">= 4.9.4"
 gem "devise", ">= 4.7.1"
 gem 'activeadmin'
 gem 'active_model_serializers'
+gem 'coffee-rails'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
