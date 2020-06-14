@@ -1,5 +1,5 @@
 {
-  "name": "Qwerty Client",
+  "name": "qwerty-client",
   "license": "MIT",
   "engines": {
     "node": "10.15.3",
