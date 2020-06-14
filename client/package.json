@@ -25,7 +25,6 @@
     "react-window": "^1.8.5",
     "save-svg-as-png": "^1.4.17",
     "stringquery": "^1.0.8",
-    "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8"
   },
   "scripts": {
