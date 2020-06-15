@@ -35,10 +35,11 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
+gem 'airbrake'
+
 # gem 'mandrill-api'
 gem 'sib-api-v3-sdk'
 
-gem 'active_model_serializers'
 gem 'devise_token_auth', "1.1.3"
 
 gem 'aws-sdk', '~> 2'
@@ -60,6 +61,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'seed_dump'
 end
 
 

@@ -60,6 +60,10 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    airbrake (10.0.4)
+      airbrake-ruby (~> 4.13)
+    airbrake-ruby (4.14.1)
+      rbtree3 (~> 0.5)
     arbre (1.2.1)
       activesupport (>= 3.0.0)
     arel (9.0.0)
@@ -239,6 +243,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rbtree3 (0.6.0)
     rebrandly (0.1.5)
       httparty (~> 0.14)
     redis (4.1.4)
@@ -258,6 +263,9 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    seed_dump (3.3.1)
+      activerecord (>= 4)
+      activesupport (>= 4)
     sib-api-v3-sdk (5.3.0)
       json (~> 2.1, >= 2.1.0)
       typhoeus (~> 1.0, >= 1.0.1)
@@ -296,6 +304,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   activeadmin
+  airbrake
   aws-sdk (~> 2)
   bootsnap (>= 1.1.0)
   byebug
@@ -314,6 +323,7 @@ DEPENDENCIES
   rebrandly
   redis (~> 4.0)
   rqrcode
+  seed_dump
   sib-api-v3-sdk
   sidekiq
   spring
