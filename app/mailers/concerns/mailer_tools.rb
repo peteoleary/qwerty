@@ -2,7 +2,7 @@ module MailerTools
   include ActiveSupport::Concern
 
   def get_app_host
-    ENV['CLIENT_APP_HOST'] || "http://localhost:3000"
+    ENV['CLIENT_APP_URL'] || "http://localhost:3000"
   end
 
   def get_app_name
