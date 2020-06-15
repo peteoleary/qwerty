@@ -3,4 +3,8 @@ class ApplicationController < ActionController::Base
   def access_denied(exception)
     Rails.logger.error "access denied! '#{exception.message}'"
   end
+
+  def fallback_index_html
+    render :file => 'public/index.html'
+  end
 end

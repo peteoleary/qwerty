@@ -16,7 +16,10 @@ Rails.application.routes.draw do
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/admin/sidekiq'
+  
+  get '*path', to: "application#fallback_index_html", constraints: ->(request) do
+    !request.xhr? && request.format.html?
+  end
 
-  get '/', to: proc { [200, {}, ['']] }
 
 end
