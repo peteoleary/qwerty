@@ -8,7 +8,11 @@ class ApiController < ActionController::Base
   before_action :authenticate_user!
 
   def filtered_scope
-    scope
+    if scope.method_defined? :user_id and current_user
+      scope.where(user_id: current_user.id)
+    else
+      scope
+    end
   end
 
   def index
