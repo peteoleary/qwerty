@@ -1,13 +1,14 @@
 ActiveAdmin.register User do
 
-  permit_params :first_name, :last_name, :phone, :email
+  permit_params :first_name, :last_name, :email, :image, :nickname
 
   form do |f|
     f.inputs do
       f.input :first_name
       f.input :last_name
-      f.input :phone
+      f.input :image
       f.input :email
+      f.input :nickname
     end
     f.actions
   end
