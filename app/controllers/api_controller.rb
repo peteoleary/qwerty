@@ -88,7 +88,7 @@ class ApiController < ActionController::Base
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_object
-    @object = scope.find(params[:id])
+    @object = scope.find(allow_params[:id])
   end
 
   def allow_params

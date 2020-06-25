@@ -6,6 +6,7 @@ class QrCode < ApplicationRecord
   before_commit :destroy_shortened_url, on: :destroy
 
   def handle_shortened_url_response shortened_url_response
+    Rails.logger.info "handle_shortened_url_response: #{shortened_url_response.destination}"
     self.shortened_url = shortened_url_response.short_url
     self.shortened_url_id = shortened_url_response.id
   end

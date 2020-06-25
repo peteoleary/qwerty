@@ -17,6 +17,6 @@ class UsersController < ApiController
 
   # Only allow a trusted parameter "white list" through.
   def allow_params
-    params.permit(:first_name, :last_name, :email, :password, :password_confirmation, :skip_password_validation, :password_reset_token, :redirect_url)
+    params.permit(:id, :first_name, :last_name, :email, :password, :password_confirmation, :skip_password_validation, :password_reset_token, :redirect_url)
   end
 end

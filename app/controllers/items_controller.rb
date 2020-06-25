@@ -7,6 +7,6 @@ class ItemsController < ApiController
   protected
 
   def allow_params
-    params.permit(:image_url, :title, :description, :user_id, :qr_code_id)
+    params.permit(:image_url, :title, :description, :user_id, :qr_code_id, :id)
   end
 end
